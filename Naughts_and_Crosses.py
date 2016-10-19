@@ -41,9 +41,10 @@ def end_game():
 
 
 
-class Player:
-    def __init__(self,name):
+class Player1:
+    def __init__(self,name,symbol):
         self.name = input('What is your name?')
+        self.symobl = input('Which symbol would you like? (X/O)')
     def choice_row():
         x=()
         while x not in range(3):
@@ -77,10 +78,10 @@ class AI:
     def turn():
         turn = True
         while turn:
-            x_row = randrange(0,3)
-            y_column = randrange(0,3)
+            x_row = randrange(3)
+            y_column = randrange(3)
             if board_state[x_row][y_column] == 'X' or board_state[x_row][y_column] == 'O':
-                print('Square\'s already full idiot') 
+                turn = True
             else:
                 board_state[x_row][y_column] = 'O'
                 turn = False
@@ -88,38 +89,13 @@ class AI:
 
 
 
-
-print('You go first')
-turn = 0
-win_condition = []
-while board_state != win_condition: #While loop that runs throughout the whole function so that if the win condition
-    free_square_player = False      #isn't filled then it will loop back to the start in the sequence -> Player turn
-    free_square_computer = False    # -> computer turn -> player turn etc until someone has won. Need to add a break for full board
-
-    while free_square_player == False: #This while loop is the players turn
-        choice_x = input('Where row would you like to go?')
-        while choice_x not in range(1,4):
-                 #Turns players input into coordinates
-            choice[0] = int(choice[0]) - 1 #these translate the coordinates to 'Computer speak'
-            choice[1] = int(choice[1]) - 1
-        if board_state[choice[0]][choice[1]] != ' ': #THIS IS WHERE THE FUNCTION STOPS WORKING. I want to change the board_state[i[j]] into an X
-            print('That is not a valid choice, soz')
-        else:
-            board_state[int(choice[0])[int(choice[1])]] = 'X'
-            free_square = True
-        printboard(board_state)
-    if board_state == win_condition:
-        break
-    else:
-        while free_square_computer == False: #While loop for the computer's turn but randomly generates numbers
-            x_coordinate = randrange(0,3)
-            y_coordinate = randrage(0,3)
-            if board_state[x_coordinate[y_coordinate]] == ' ':
-                board_state[x_coordinate[y_coordinate]] = 'O'
-                free_square_computer = True
-        printboard(board_state)
-    if board_state == win_condition:
-        break
+  # Start the game here with asking the name and then getting into the start game function #
+  #Commit the Player1 turn function #
+  #Check win condition #
+  #Have AI or Player2 do their turn #
+  #Check win condition #
+  #Repeat until win condition is in there or board is full #
+  #Ask if they would like to play again, then ask if they would like to player against a second player or AI again #
     
 
 
