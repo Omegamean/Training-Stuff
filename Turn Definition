@@ -1,0 +1,9 @@
+def TurnX(Player):
+	free_square = False
+	while free_square == False:
+		choice = input('Where would you like to go (type in the form y,z for the coordinates)?').split(',')
+		if board_state[choice[0][choice[1]]] != '| |':
+			print('That is not a valid choice, soz')
+		else:
+			board_state[choice[0][choice[1]]] = '|X|'
+			free_square = True
