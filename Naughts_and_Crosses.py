@@ -3,7 +3,7 @@ Playing = True
 
 class Board():
     def __init__(self): #Finds the board size, generates the empty board, win condition list and empty spaces list
-        self._board_size()
+        self.board_size = int(input("What board size would you like to play on?"))
         self.board_state = [[' ' for i in range(self.board_size)] for i in range(self.board_size)]
         self.generate_win_condition()
         self.generate_empty_spaces()
@@ -19,32 +19,29 @@ class Board():
 
         #Vertical Wins
         for i in range(self.board_size):
-            _sub_win_condition = []
+            sub_win_condition = []
             for j in range(self.board_size):
-                _sub_win_condition.append([i, j])
-            self.win_condition.append(_sub_win_condition)
+                sub_win_condition.append([i, j])
+            self.win_condition.append(sub_win_condition)
 
         #Horizontal Wins
         for i in range(self.board_size):
-            _sub_win_condition = []
+            sub_win_condition = []
             for j in range(self.board_size):
-                _sub_win_condition.append([j, i])
-            self.win_condition.append(_sub_win_condition)
+                sub_win_condition.append([j, i])
+            self.win_condition.append(sub_win_condition)
 
             #Top Left Bottomw Right
-        _sub_win_condition = []
+        sub_win_condition = []
         for i in range(self.board_size):
-            _sub_win_condition.append([i, i])
-        self.win_condition.append(_sub_win_condition)
+            sub_win_condition.append([i, i])
+        self.win_condition.append(sub_win_condition)
  
             #Top Right Bottom Left
-        _sub_win_condition = []
+        sub_win_condition = []
         for i in range(self.board_size):
-            _sub_win_condition.append([i, (self.board_size - 1) - i])
-        self.win_condition.append(_sub_win_condition)
-
-    def _board_size(self): #Asks the user what size board they want to play on
-        self.board_size = int(input("What board size would you like? (N x N)  "))
+            sub_win_condition.append([i, (self.board_size - 1) - i])
+        self.win_condition.append(sub_win_condition)
 
     def printboard(self): #Simply prints an empty list into a matrix
         for item in self.board_state:
@@ -69,12 +66,9 @@ class Game():
         while self.running == True:
             self.turn()
             self.board.printboard()
-            if self.check_win() == True:
-            	break
-            if self.check_draw() == True:
-            	break
+            if self.check_win()
+            if self.check_draw()
             self.change_player()
-        self.end_game()
 
     def first_turn(self): #Finds out who the user would like to go first
         who_goes_first = input("Who should go first? (1/2)  ")
@@ -89,20 +83,15 @@ class Game():
     def turn(self): #Checks the current player, makes them do a turn based on what type of player they are then
         if self.current_player.player_type == 'H':  #takes the slot they used out of the empty spaces list
             choices = self.current_player.human_choice()
-            if choices in self.board.empty_spaces:
-                self.board.board_state[choices[0]][choices[1]] = self.current_player.symbol
-                self.board.empty_spaces.remove(choices)
-
-            else:
-                print('That space is not available douche. Choose again')
-                self.turn()
         else:
             choices = self.current_player.ai_choice()
-            if choices in self.board.empty_spaces:
-                self.board.board_state[choices[0]][choices[1]] = self.current_player.symbol
-                self.board.empty_spaces.remove(choices)
-            else:
-                self.turn()
+        if choices in self.board.empty_spaces:
+            self.board.board_state[choices[0]][choices[1]] = self.current_player.symbol
+            self.board.empty_spaces.remove(choices)
+        else:
+            self.current_player.player_type == 'H':
+                print("That's already taken douche...")
+            self.turn()
 
     def change_player(self): #Checks which players turn it is and then switches it then tells the next person who's go
         if self.current_player == self.p1: # it is
@@ -115,23 +104,24 @@ class Game():
         if not self.board.check_free_spaces():
             self.running = False
             print("Well great. That's a draw.")
-            return True
+            self.end_game()
 
     def check_win(self): #Checks the board to see if there is a player symbol in all the spaces of each win condition
         for i in range((self.board.board_size * 2) + 2):
+        	winning_line = self.board.win_condition[i][j]
                 if all(
-                    self.board.board_state[self.board.win_condition[i][j][0]][self.board.win_condition[i][j][1]] 
+                    self.board.board_state[winning_line[0]][winning_line[1]] 
                     == self.current_player.symbol for j in range(self.board.board_size)
                     ):
                     print(self.current_player.name + " wins! Well done")
                     self.running = False
-                    return True
+                    self.end_game()
 
     def end_game(self):  #Tells then to bugger off
         print("Game's over, go home now... Unless...")
 
     def _player1_assignment(self): #Asks the user to say if player 1 is a human or a robot
-        self.player1_type = (input("Is player 1 a human or a robot?  (h for Human or a for Ai)"  )).lower()
+        self.player1_type = (input("Is player 1 a human or a robot?  (h for Human or a for Ai)  ")).lower()
         if self.player1_type != 'h' and self.player1_type != 'a':
             self._player1_assignment()
 
@@ -148,7 +138,7 @@ class Game():
         self.p1.choice_range = self.get_board_size()
 
     def _generate_player1_symbol(self):  #Asks the user which symbol player 1 wants to be
-        player1_symbol = input('What symbol would you like player 1 to be? (X or O)  ')
+        player1_symbol = input('What symbol would you like player 1 to be? (X or O)  ').upper()
         if player1_symbol == 'X':
             self.p1.symbol = 'X'
         elif player1_symbol == 'O':
